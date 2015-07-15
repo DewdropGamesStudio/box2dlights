@@ -429,7 +429,17 @@ public abstract class Light implements Disposable {
 		}
 	};
 
-	static boolean contactFilter(Fixture fixture, Filter filterA) {
+	private static Filter newContactFilter(short categoryBits,
+									short groupIndex,
+									short maskBits) {
+		Filter filter = new Filter();
+		filter.categoryBits = categoryBits;
+		filter.groupIndex = groupIndex;
+		filter.maskBits = maskBits;
+		return filter;
+	}
+
+	private static boolean contactFilter(Fixture fixture, Filter filterA) {
 		if(filterA == null)
 			return true;
 		Filter filterB = fixture.getFilterData();
@@ -459,12 +469,10 @@ public abstract class Light implements Disposable {
 	 * @param groupIndex   - see {@link Filter#groupIndex}
 	 * @param maskBits     - see {@link Filter#maskBits}
 	 */
-	public void setContactFilter(short categoryBits, short groupIndex,
-			short maskBits) {
-		filterA = new Filter();
-		filterA.categoryBits = categoryBits;
-		filterA.groupIndex = groupIndex;
-		filterA.maskBits = maskBits;
+	public void setContactFilter(short categoryBits,
+								 short groupIndex,
+								 short maskBits) {
+		filterA = newContactFilter(categoryBits, groupIndex, maskBits);
 	}
 
 	boolean globalContactFilter(Fixture fixtureB) {
@@ -485,12 +493,10 @@ public abstract class Light implements Disposable {
 	 * @param groupIndex   - see {@link Filter#groupIndex}
 	 * @param maskBits     - see {@link Filter#maskBits}
 	 */
-	static public void setGlobalContactFilter(short categoryBits, short groupIndex,
-			short maskBits) {
-		globalFilterA = new Filter();
-		globalFilterA.categoryBits = categoryBits;
-		globalFilterA.groupIndex = groupIndex;
-		globalFilterA.maskBits = maskBits;
+	static public void setGlobalContactFilter(short categoryBits,
+											  short groupIndex,
+											  short maskBits) {
+		globalFilterA = newContactFilter(categoryBits, groupIndex, maskBits)
 	}
 
 }
