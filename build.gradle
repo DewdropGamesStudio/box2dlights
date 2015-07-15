@@ -1,0 +1,26 @@
+def libGdxVersion = '1.6.4'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile group: 'com.badlogicgames.gdx', name: 'gdx', version: libGdxVersion
+    compile group: 'com.badlogicgames.gdx', name: 'gdx-box2d', version: libGdxVersion
+}
+
+
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'com.dewdropgames'
+            artifactId 'box2dlights'
+            version '1.5-SNAPSHOT'
+            from components.java
+        }
+    }
+}
