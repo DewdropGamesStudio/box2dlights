@@ -414,15 +414,11 @@ public abstract class Light implements Disposable {
 		final public float reportRayFixture(Fixture fixture, Vector2 point,
 				Vector2 normal, float fraction) {
 			
-			if ((globalFilterA != null) && !globalContactFilter(fixture))
+			if (!globalContactFilter(fixture) ||
+				!contactFilter(fixture) ||
+				(ignoreBody && fixture.getBody() == getBody()))
 				return -1;
-			
-			if ((filterA != null) && !contactFilter(fixture))
-				return -1;
-			
-			if (ignoreBody && fixture.getBody() == getBody())
-				return -1;
-			
+
 			// if (fixture.isSensor())
 			// return -1;
 			
@@ -432,16 +428,21 @@ public abstract class Light implements Disposable {
 			return fraction;
 		}
 	};
-	
-	boolean contactFilter(Fixture fixtureB) {
-		Filter filterB = fixtureB.getFilterData();
 
+	static boolean contactFilter(Fixture fixture, Filter filterA) {
+		if(filterA == null)
+			return true;
+		Filter filterB = fixture.getFilterData();
 		if (filterA.groupIndex != 0 &&
 			filterA.groupIndex == filterB.groupIndex)
 			return filterA.groupIndex > 0;
 
 		return  (filterA.maskBits & filterB.categoryBits) != 0 &&
 				(filterA.categoryBits & filterB.maskBits) != 0;
+	}
+
+	boolean contactFilter(Fixture fixtureB) {
+		return contactFilter(fixtureB, filterA);
 	}
 
 	/**
@@ -467,14 +468,7 @@ public abstract class Light implements Disposable {
 	}
 
 	boolean globalContactFilter(Fixture fixtureB) {
-		Filter filterB = fixtureB.getFilterData();
-
-		if (globalFilterA.groupIndex != 0 &&
-			globalFilterA.groupIndex == filterB.groupIndex)
-			return globalFilterA.groupIndex > 0;
-
-		return  (globalFilterA.maskBits & filterB.categoryBits) != 0 &&
-				(globalFilterA.categoryBits & filterB.maskBits) != 0;
+		return contactFilter(fixtureB, globalFilterA);
 	}
 
 	/**
