@@ -689,10 +689,10 @@ public class Box2dLightCustomShaderTest extends InputAdapter implements Applicat
 						1f);
 			return true;
 
-		case Input.Keys.F6:
-			for (Light light : lights)
-				light.setDistance(MathUtils.random(LIGHT_DISTANCE * 0.5f, LIGHT_DISTANCE * 2f));
-			return true;
+//		case Input.Keys.F6: //TODO fix distance test
+//			for (Light light : lights)
+//				light.setDistance(MathUtils.random(LIGHT_DISTANCE * 0.5f, LIGHT_DISTANCE * 2f));
+//			return true;
 
 		case Input.Keys.F7:
 			drawNormals = !drawNormals;

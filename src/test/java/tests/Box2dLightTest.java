@@ -483,11 +483,11 @@ public class Box2dLightTest extends InputAdapter implements ApplicationListener 
 						1f);
 			return true;
 			
-		case Input.Keys.F6:
-			for (Light light : lights)
-				light.setDistance(MathUtils.random(
-						LIGHT_DISTANCE * 0.5f, LIGHT_DISTANCE * 2f));
-			return true;
+//		case Input.Keys.F6:
+//			for (Light light : lights)
+//				light.setDistance(MathUtils.random(
+//						LIGHT_DISTANCE * 0.5f, LIGHT_DISTANCE * 2f));
+//			return true;
 			
 		case Input.Keys.F9:
 			rayHandler.diffuseBlendFunc.reset();
