@@ -10,6 +10,14 @@ repositories {
 dependencies {
     compile group: 'com.badlogicgames.gdx', name: 'gdx', version: libGdxVersion
     compile group: 'com.badlogicgames.gdx', name: 'gdx-box2d', version: libGdxVersion
+
+    testCompile group: 'junit', name: 'junit', version: 4.12
+    testCompile group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: libGdxVersion
+
+    testRuntime group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: libGdxVersion
+    testRuntime group: 'com.badlogicgames.gdx', name: 'gdx-box2d-platform', version: libGdxVersion
+    testRuntime group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: libGdxVersion, classifier: 'natives-desktop'
+
 }
 
 
