@@ -18,7 +18,35 @@ import com.badlogic.gdx.physics.box2d.Body;
  * 
  * @author kalle_h
  */
-public abstract class PositionalLight extends Light {
+public abstract class PositionalLight extends Light implements DistanceLimited{
+
+	float distance = Float.POSITIVE_INFINITY;
+
+	@Override
+	public void setDistanceValue(float dist) {
+		distance = dist;
+	}
+
+	@Override
+	public float getDistanceValue(){
+		return distance;
+	}
+	@Override
+	public float getDistance(){
+		return DistanceLimitedImpl.getDistance(this);
+	}
+
+	/**
+	 * Sets light distance
+	 *
+	 * <p>MIN value capped to 0.1f meter
+	 * <p>Actual recalculations will be done only on {@link #update()} call
+	 */
+	@Override
+	public void setDistance(float dist) {
+		DistanceLimitedImpl.setDistance(this, dist);
+	}
+
 
 	protected final Vector2 tmpEnd = new Vector2();
 	protected final Vector2 start = new Vector2();
@@ -55,9 +83,11 @@ public abstract class PositionalLight extends Light {
 	 *            direction in degrees (if applicable) 
 	 */
 	public PositionalLight(RayHandler rayHandler, int rays, Color color, float distance, float x, float y, float directionDegree) {
-		super(rayHandler, rays, color, distance, directionDegree);
+		super(rayHandler, rays, color, directionDegree);
 		start.x = x;
 		start.y = y;
+
+		setDistance(distance);
 
 		lightMesh = new Mesh(VertexDataType.VertexArray, false, vertexNum, 0, new VertexAttribute(Usage.Position, 2,
 			"vertex_positions"), new VertexAttribute(Usage.ColorPacked, 4, "quad_colors"),

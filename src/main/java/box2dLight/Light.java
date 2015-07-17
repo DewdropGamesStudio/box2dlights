@@ -40,7 +40,6 @@ public abstract class Light implements Disposable {
 	protected int rayNum;
 	protected int vertexNum;
 	
-	protected float distance;
 	protected float direction;
 	protected float colorF;
 	protected float softShadowLength = 2.5f;
@@ -70,13 +69,15 @@ public abstract class Light implements Disposable {
 	 * @param directionDegree
 	 *            direction in degrees (if applicable) 
 	 */
-	public Light(RayHandler rayHandler, int rays, Color color,
-			float distance, float directionDegree) {
+	public Light(RayHandler rayHandler,
+				 int rays,
+				 Color color,
+				 float directionDegree) {
 		rayHandler.lightList.add(this);
 		this.rayHandler = rayHandler;
 		setRayNum(rays);
 		setColor(color);
-		setDistance(distance);
+//		setDistance(distance); //TODO move to a factory method
 		setDirection(directionDegree);
 	}
 
@@ -89,13 +90,6 @@ public abstract class Light implements Disposable {
 	 * Render this light
 	 */
 	abstract void render();
-	
-	/**
-	 * Sets light distance
-	 * 
-	 * <p>NOTE: MIN value should be capped to 0.1f meter
-	 */
-	public abstract void setDistance(float dist);
 
 	/**
 	 * Sets light direction
@@ -345,12 +339,6 @@ public abstract class Light implements Disposable {
 		return color;
 	}
 
-	/**
-	 * @return rays distance of this light (without gamma correction)
-	 */
-	public float getDistance() {
-		return distance / RayHandler.gammaCorrectionParameter;
-	}
 
 	/**
 	 * Checks if given point is inside of this light area
@@ -496,7 +484,7 @@ public abstract class Light implements Disposable {
 	static public void setGlobalContactFilter(short categoryBits,
 											  short groupIndex,
 											  short maskBits) {
-		globalFilterA = newContactFilter(categoryBits, groupIndex, maskBits)
+		globalFilterA = newContactFilter(categoryBits, groupIndex, maskBits);
 	}
 
 }

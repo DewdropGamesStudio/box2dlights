@@ -47,7 +47,7 @@ public class DirectionalLight extends Light {
 	public DirectionalLight(RayHandler rayHandler, int rays, Color color,
 			float directionDegree) {
 		
-		super(rayHandler, rays, color, Float.POSITIVE_INFINITY, directionDegree);
+		super(rayHandler, rays, color, directionDegree);
 		
 		vertexNum = (vertexNum - 1) * 2;
 		start = new Vector2[rayNum];
@@ -233,12 +233,6 @@ public class DirectionalLight extends Light {
 	public void setPosition (Vector2 position) {
 	}
 
-	/** Not applicable for this light type **/
-	@Deprecated
-	@Override
-	public void setDistance(float dist) {
-	}
-	
 	/** Not applicable for this light type **/
 	@Deprecated
 	@Override

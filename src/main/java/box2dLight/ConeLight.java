@@ -83,18 +83,6 @@ public class ConeLight extends PositionalLight {
 		dirty = true;
 	}
 
-	/**
-	 * Sets light distance
-	 * 
-	 * <p>MIN value capped to 0.1f meter
-	 * <p>Actual recalculations will be done only on {@link #update()} call
-	 */
-	public void setDistance(float dist) {
-		dist *= RayHandler.gammaCorrectionParameter;
-		this.distance = dist < 0.01f ? 0.01f : dist;
-		dirty = true;
-	}
-	
 	/** Updates lights sector basing on distance, direction and coneDegree **/
 	protected void setEndPoints() {
 		for (int i = 0; i < rayNum; i++) {

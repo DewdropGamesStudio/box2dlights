@@ -60,19 +60,6 @@ public class PointLight extends PositionalLight {
 		updateMesh();
 	}
 	
-	/**
-	 * Sets light distance
-	 * 
-	 * <p>MIN value capped to 0.1f meter
-	 * <p>Actual recalculations will be done only on {@link #update()} call
-	 */
-	@Override
-	public void setDistance(float dist) {
-		dist *= RayHandler.gammaCorrectionParameter;
-		this.distance = dist < 0.01f ? 0.01f : dist;
-		dirty = true;
-	}
-	
 	/** Updates light basing on it's distance and rayNum **/
 	void setEndPoints() {
 		float angleNum = 360f / (rayNum - 1);

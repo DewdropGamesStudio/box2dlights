@@ -23,8 +23,28 @@ import com.badlogic.gdx.utils.Pools;
  * 
  * @author spruce
  */
-public class ChainLight extends Light {
-	
+public class ChainLight extends Light implements DistanceLimited{
+
+	private float distance = 1;
+
+	@Override
+	public void setDistanceValue(float dist){
+		distance = dist;
+	}
+
+	public void setDistance(float dist){
+		DistanceLimitedImpl.setDistance(this, dist);
+	}
+
+	@Override
+	public float getDistanceValue(){
+		return distance;
+	}
+	@Override
+	public float getDistance(){
+		return DistanceLimitedImpl.getDistance(this);
+	}
+
 	public static float defaultRayStartOffset = 0.001f;
 	public float rayStartOffset;
 	public final FloatArray chain;
@@ -105,7 +125,10 @@ public class ChainLight extends Light {
 	public ChainLight(RayHandler rayHandler, int rays, Color color,
 			float distance, int rayDirection, float[] chain) {
 		
-		super(rayHandler, rays, color, distance, 0f);
+		super(rayHandler, rays, color, 0f);
+
+		setDistance(distance);
+
 		rayStartOffset = ChainLight.defaultRayStartOffset;
 		this.rayDirection = rayDirection;
 		vertexNum = (vertexNum - 1) * 2;
@@ -260,20 +283,7 @@ public class ChainLight extends Light {
 		Pools.free(vertices);
 		return result;
 	}
-	
-	/**
-	 * Sets light distance
-	 * 
-	 * <p>MIN value capped to 0.1f meter
-	 * <p>Actual recalculations will be done only on {@link #update()} call
-	 */
-	@Override
-	public void setDistance(float dist) {
-		dist *= RayHandler.gammaCorrectionParameter;
-		this.distance = dist < 0.01f ? 0.01f : dist;
-		dirty = true;
-	}
-	
+
 	/** Not applicable for this light type **/
 	@Deprecated
 	@Override
